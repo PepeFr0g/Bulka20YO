@@ -191,6 +191,23 @@ $(document).on('click', 'a[href^="#"]', function (event) {
     }, 1000);
 });
 
-
+document.querySelector(".view-results").addEventListener("click", function() {
+    var language = document.getElementById("language").value;
+    var score = document.getElementById("score").textContent.split(": ")[1];
+    var totalQuestions = document.getElementById("ques-left").textContent.split(": ")[1].split("/")[1];
+    var correctAnswers = document.querySelectorAll(".correct").length;
+    var incorrectAnswers = document.querySelectorAll(".incorrect").length;
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "send_results.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            // Здесь можно добавить код для отображения сообщения об успешной отправке или обработки ошибки
+        }
+    };
+    xhr.send("language=" + language + "&score=" + score + "&totalQuestions=" + totalQuestions + "&correctAnswers=" + correctAnswers + "&incorrectAnswers=" + incorrectAnswers);
+});
 
 /*Smooth Scroll End*/
